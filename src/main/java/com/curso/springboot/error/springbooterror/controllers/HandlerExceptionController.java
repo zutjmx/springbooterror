@@ -19,7 +19,8 @@ public class HandlerExceptionController {
         error.setMensaje("Error de división por cero");
         error.setError(ex.getMessage());
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        return ResponseEntity.internalServerError().body(error);
+        //return ResponseEntity.internalServerError().body(error);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
 }
