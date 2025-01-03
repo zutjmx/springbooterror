@@ -1,6 +1,8 @@
 package com.curso.springboot.error.springbooterror.controllers;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,16 @@ public class HandlerExceptionController {
         error.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         //return ResponseEntity.internalServerError().body(error);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler({NumberFormatException.class})
+    public Map<String, String> formatoNumero(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("mensaje", "Error de formato de número");
+        error.put("fecha", new Date().toString());
+        error.put("error", ex.getMessage());
+        error.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        return error;
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)

@@ -15,7 +15,8 @@ public class AppController {
 
     @GetMapping("/app")
     public String getMethodName() {
-        int numero = 100/0;
+        //int numero = 100/0;
+        int numero = Integer.parseInt("Q4AJLV7M0J");
         System.out.println("Número: " + numero);
         return "OK 200: ".concat(dataFaker.getTexto());
     }
