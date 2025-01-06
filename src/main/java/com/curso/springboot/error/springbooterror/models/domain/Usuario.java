@@ -7,6 +7,8 @@ public class Usuario {
     private String materno;
     private String email;
 
+    private Role role;
+
     public Usuario() {
     }
 
@@ -62,5 +64,17 @@ public class Usuario {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getNombreRole() {
+        return role.getNombre();
     }
 }
