@@ -33,7 +33,7 @@ public class DataFaker {
         for (int i = 0; i < index; i++) {
             usuarios.add(
                 new Usuario(
-                    faker.number().randomNumber(),
+                    faker.number().numberBetween(1L, 20L),
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.name().lastName(),
