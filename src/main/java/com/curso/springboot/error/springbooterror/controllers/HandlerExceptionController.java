@@ -6,11 +6,14 @@ import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.curso.springboot.error.springbooterror.exceptions.RoleNuloException;
+import com.curso.springboot.error.springbooterror.exceptions.UsuarioNoEncontradoException;
 import com.curso.springboot.error.springbooterror.models.Error;
 
 @RestControllerAdvice
@@ -46,6 +49,22 @@ public class HandlerExceptionController {
         error.setError(ex.getMessage());
         error.setStatus(HttpStatus.NOT_FOUND.value());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler({
+        NullPointerException.class, 
+        HttpMessageNotWritableException.class, 
+        UsuarioNoEncontradoException.class,
+        RoleNuloException.class
+    })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Map<String, String> usuarioNoEcontrado(Exception ex) {
+        Map<String, String> error = new HashMap<>();
+        error.put("mensaje", "El usuario no existe o su atributo Role es nulo");
+        error.put("fecha", new Date().toString());
+        error.put("error", ex.getMessage());
+        error.put("status", String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()));
+        return error;
     }
 
 }

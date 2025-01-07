@@ -2,6 +2,8 @@ package com.curso.springboot.error.springbooterror.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import com.curso.springboot.error.springbooterror.exceptions.RoleNuloException;
+import com.curso.springboot.error.springbooterror.exceptions.UsuarioNoEncontradoException;
 import com.curso.springboot.error.springbooterror.models.domain.Usuario;
 import com.curso.springboot.error.springbooterror.services.DataFaker;
 import com.curso.springboot.error.springbooterror.services.UsuarioService;
@@ -34,12 +36,29 @@ public class AppController {
     @GetMapping("/mostrar/{id}")
     public Usuario mostrarUsuario(@PathVariable(name = "id") Long id) {
         Usuario usuario = usuarioService.obtenerPorId(id);
+        
+        if (usuario == null) {
+            throw new UsuarioNoEncontradoException("Usuario con ID: ".concat(id.toString()).concat(" no existe en la base de datos"));            
+        }
+
+        if (usuario.getRole() == null) {
+            throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
+        }
+
+        System.out.println("Email del Usuario: " + usuario.getEmail());
+        
         return usuario;
     }
 
     @GetMapping("/listar")
     public List<Usuario> listaUsuarios() {
-        return usuarioService.listar();
+        List<Usuario> usuarios = usuarioService.listar();
+        for (Usuario usuario : usuarios) {
+            if (usuario.getRole() == null) {
+                throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
+            }
+        }
+        return usuarios;
     }    
     
 }
