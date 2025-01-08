@@ -1,6 +1,7 @@
 package com.curso.springboot.error.springbooterror.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario obtenerPorId(Long id) {
-        //return dataFaker.getUsuarioById(id);
-        return dataFaker.getUsuarios().stream()
+    public Optional<Usuario> obtenerPorId(Long id) {
+        return Optional.ofNullable(dataFaker.getUsuarios().stream()
             .filter(usuario -> usuario.getId().equals(id))
             .findFirst()
-            .orElse(null);
+            .orElse(null));
     }
     
 }

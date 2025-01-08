@@ -74,7 +74,7 @@ public class Usuario {
         this.role = role;
     }
 
-    public String getNombreRole() {
+    /* public String getNombreRole() {
         return role.getNombre();
-    }
+    } */
 }

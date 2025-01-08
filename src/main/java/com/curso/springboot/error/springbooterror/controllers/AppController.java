@@ -35,15 +35,15 @@ public class AppController {
 
     @GetMapping("/mostrar/{id}")
     public Usuario mostrarUsuario(@PathVariable(name = "id") Long id) {
-        Usuario usuario = usuarioService.obtenerPorId(id);
+        Usuario usuario = usuarioService
+        .obtenerPorId(id)
+        .orElseThrow(
+            () -> new UsuarioNoEncontradoException("Usuario con ID: ".concat(id.toString()).concat(" no existe en la base de datos"))
+        );
         
-        if (usuario == null) {
-            throw new UsuarioNoEncontradoException("Usuario con ID: ".concat(id.toString()).concat(" no existe en la base de datos"));            
-        }
-
-        if (usuario.getRole() == null) {
+        /* if (usuario.getRole() == null) {
             throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
-        }
+        } */
 
         System.out.println("Email del Usuario: " + usuario.getEmail());
         
@@ -53,11 +53,11 @@ public class AppController {
     @GetMapping("/listar")
     public List<Usuario> listaUsuarios() {
         List<Usuario> usuarios = usuarioService.listar();
-        for (Usuario usuario : usuarios) {
+        /* for (Usuario usuario : usuarios) {
             if (usuario.getRole() == null) {
                 throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
             }
-        }
+        } */
         return usuarios;
     }    
     
