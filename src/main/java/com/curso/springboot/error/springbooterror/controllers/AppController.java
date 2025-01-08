@@ -2,7 +2,7 @@ package com.curso.springboot.error.springbooterror.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.curso.springboot.error.springbooterror.exceptions.RoleNuloException;
+//import com.curso.springboot.error.springbooterror.exceptions.RoleNuloException;
 import com.curso.springboot.error.springbooterror.exceptions.UsuarioNoEncontradoException;
 import com.curso.springboot.error.springbooterror.models.domain.Usuario;
 import com.curso.springboot.error.springbooterror.services.DataFaker;
