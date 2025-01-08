@@ -29,11 +29,11 @@ public class DataFaker {
 
     public List<Usuario> getUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        int index = faker.number().numberBetween(1, 10);
-        for (int i = 0; i < index; i++) {
+        int index = faker.number().numberBetween(10, 20);
+        for (int i = 0; i < index; i++) {            
             usuarios.add(
                 new Usuario(
-                    faker.number().numberBetween(1L, 20L),
+                    Long.valueOf(i),
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.name().lastName(),

@@ -2,15 +2,15 @@ package com.curso.springboot.error.springbooterror.controllers;
 
 import org.springframework.web.bind.annotation.RestController;
 
-//import com.curso.springboot.error.springbooterror.exceptions.RoleNuloException;
-import com.curso.springboot.error.springbooterror.exceptions.UsuarioNoEncontradoException;
 import com.curso.springboot.error.springbooterror.models.domain.Usuario;
 import com.curso.springboot.error.springbooterror.services.DataFaker;
 import com.curso.springboot.error.springbooterror.services.UsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,30 +34,17 @@ public class AppController {
     }
 
     @GetMapping("/mostrar/{id}")
-    public Usuario mostrarUsuario(@PathVariable(name = "id") Long id) {
-        Usuario usuario = usuarioService
-        .obtenerPorId(id)
-        .orElseThrow(
-            () -> new UsuarioNoEncontradoException("Usuario con ID: ".concat(id.toString()).concat(" no existe en la base de datos"))
-        );
-        
-        /* if (usuario.getRole() == null) {
-            throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
-        } */
-
-        System.out.println("Email del Usuario: " + usuario.getEmail());
-        
-        return usuario;
+    public ResponseEntity<?> mostrarUsuario(@PathVariable(name = "id") Long id) {        
+        Optional<Usuario> optional = usuarioService.obtenerPorId(id);        
+        if (optional.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }        
+        return ResponseEntity.ok(optional.orElseThrow());
     }
 
     @GetMapping("/listar")
     public List<Usuario> listaUsuarios() {
-        List<Usuario> usuarios = usuarioService.listar();
-        /* for (Usuario usuario : usuarios) {
-            if (usuario.getRole() == null) {
-                throw new RoleNuloException("Al menos un objeto usuario no tiene su atributo Role válido");
-            }
-        } */
+        List<Usuario> usuarios = usuarioService.listar();        
         return usuarios;
     }    
     
